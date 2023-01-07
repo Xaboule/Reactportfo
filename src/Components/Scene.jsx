@@ -75,7 +75,7 @@ export default function Scene({ mobil }) {
     normalMap: innerEyeNorm,
   });
 
-  const facialHairsMat = new THREE.MeshLambertMaterial({ color: "#111111" });
+  const facialHairsMat = new THREE.MeshStandardMaterial({ color: "#111111" , roughness : 1, metalness : 0});
 
 
   const backRoughness = useLoader(TextureLoader, "/terrain-roughness.jpg");
@@ -85,7 +85,7 @@ export default function Scene({ mobil }) {
 
   const model = useLoader(
     GLTFLoader,
-    mobil ? "/HeadDefDISPMOB.glb" : "/HeadDefDISPPAChov2.glb",
+    mobil ? "/HeadDefDISPMOB.glb" : "/HeadDefDISPPAChov2DOSO.glb",
     (loader) => {
       // console.log(loader)
       const dracoLoader = new DRACOLoader();
@@ -94,38 +94,40 @@ export default function Scene({ mobil }) {
     }
   );
 console.log(model)
-  // model.scene.traverse(function (object) {
-  //   if (object.isMesh) {
-  //     if (object.name === "Sphere2" || object.name === "Sphere2001") {
-  //       object.material = mobil ? eyeoutMob : eyeout2;
-  //     } else if (object.name === "Sphere1002" || object.name === "Sphere1003") {
-  //       object.material = eyeMaterial;
-  //     }
-  //     if (object.name === "Head2001") {
-  //       object.material = headus;
-  //     } else if (
-  //       object.name === "Broaux" ||
-  //       object.name === "Mesh002" ||
-  //       object.name === "Mesh001" ||
-  //       object.name === "Mesh007" ||
-  //       object.name === "Mesh003"
-  //     ) {
-  //       object.material = facialHairsMat;
-  //     }
-  //     if (object.name === "Torus") {
-  //       object.material = new THREE.MeshStandardMaterial({
-  //         color: "#9d9d9d",
-  //         metalness: 1,
-  //         roughness: 0,
-  //       });
-  //     }
-  //   } else if (object.name === "NurbsPath031") {
-  //     object.children[1].material.envMapIntensity = 0.2;
-  //     // console.log(object.children[1].name)
+  model.scene.traverse(function (object) {
+    if (object.isMesh) {
+      if (object.name === "Sphere2" || object.name === "Sphere2001") {
+        // object.material = mobil ? eyeoutMob : eyeout2;
+        object.visible = false
+      } else 
+      if (object.name === "Sphere1002" || object.name === "Sphere1003") {
+        object.material = eyeMaterial;
+      }
+      if (object.name === "Head2001") {
+        object.material = headus;
+      } else if (
+        object.name === "Broaux" ||
+        object.name === "Mesh002" ||
+        object.name === "Mesh001" ||
+        object.name === "Mesh007" ||
+        object.name === "Mesh003"
+      ) {
+        object.material = facialHairsMat;
+      }
+      if (object.name === "Torus") {
+        object.material = new THREE.MeshStandardMaterial({
+          color: "#9d9d9d",
+          metalness: 1,
+          roughness: 0,
+        });
+      }
+    } else if (object.name === "NurbsPath031") {
+      object.children[1].material.envMapIntensity = 0.2;
+      // console.log(object.children[1].name)
 
-  //     // object.children.material = new THREE.MeshStandardMaterial({color: '#9d9d9d', metalness:1, roughness: 0})
-  //   }
-  // });
+      // object.children.material = new THREE.MeshStandardMaterial({color: '#9d9d9d', metalness:1, roughness: 0})
+    }
+  });
 
 
 
@@ -168,8 +170,9 @@ console.log(model)
       <group
         dispose={null}
         ref={headFull}
-        position={mobil ? [5, -2, 17.5] : [4.5, -2, 18.5]}
+        position={mobil ? [5, -2, 17.5] : [4.5, -2.4, 18.5]}
         rotation={mobil ? [-0.05, -0.9, 0] : [0.9, -0.8, 0.051]}
+        scale={[2,2,2]}
       >
         <spotLight
           lookAt={[-12, 8, 2]}

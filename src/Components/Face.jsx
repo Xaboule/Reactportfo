@@ -46,14 +46,14 @@ export const Face = () => {
           }}
           resize={true}
         >
-          <spotLight
+          {/* <spotLight
   lookAt={[7, 6, 2]}
   position={[-7, 6, 2]}
   intensity={5}
   color="#ff00ff"
   penumbra={0.02}
   castShadow
-/>
+/> */}
           <Scene mobil={mobil} />
           <PerspectiveCamera
             makeDefault
